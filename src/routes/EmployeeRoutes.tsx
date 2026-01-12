@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router";
+// import Dashboard from "../pages/Dashboard"
 
 
 import Login from '../pages/login'
@@ -15,6 +16,7 @@ export function EmployeeRoutes(){
             <Route path="/cadastro" element={<Register/>} />
             <Route path="/home" element={<Home/>} />
             <Route path='*' element={<NotFound/>} />
+            {/* <Route path="/dashboard" element={<Dashboard/>} /> */}
         </Routes>
     )
 }
