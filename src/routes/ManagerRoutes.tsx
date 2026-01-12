@@ -12,10 +12,10 @@ import NotFound from '../pages/NotFound'
 export function ManagerRoutes(){
     return (
         <Routes>
-            <Route path="/" element={<Login/>} />
-            <Route path="/cadastro" element={<Register/>} />
+            <Route path="/" element={<Dashboard/>} />
             <Route path="/home" element={<Home/>} />
-            <Route path="/dashboard" element={<Dashboard/>} />
+            <Route path="/dashboard" element={<Dashboard/>}/>
+            <Route path="/dashboard/:id" element={<Dashboard/>}/>
             <Route path='*' element={<NotFound/>} />
         </Routes>
     )

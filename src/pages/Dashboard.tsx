@@ -14,8 +14,11 @@ import {
   FaSpinner, 
   FaExclamationTriangle,
   FaIdCard,
-  FaCalendarAlt
+  FaCalendarAlt,
+  FaPencilAlt
 } from 'react-icons/fa';
+
+import { IoRemove } from "react-icons/io5";
 
 interface UserData {
   id: string;
@@ -30,7 +33,7 @@ export default function Dashboard() {
   
   const [users, setUsers] = useState<UserData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
 
   useEffect(() => {
@@ -56,6 +59,25 @@ export default function Dashboard() {
 
     fetchUsers();
   }, []);
+
+  async function handleDeleteUser(id: string) {
+    const confirmDelete = window.confirm("Tem certeza que deseja remover este usuário?")
+
+    if(!confirmDelete) {
+      return;
+    }
+
+    try{
+      await api.delete(`/users/${id}`);
+
+      setUsers((oldUsers) => oldUsers.filter(user => user.id !== id));
+
+      alert("Usuário removido com sucesso!");
+    } catch (error) {
+      alert("Erro ao tentar deletar o usuário.");
+      console.error(error);
+    }
+  }
 
   
   return (
@@ -104,6 +126,7 @@ export default function Dashboard() {
                       <th className="p-4 border-b">Cargo</th>
                       <th className="p-4 border-b">ID do Sistema</th>
                       <th className="p-4 border-b">Cadastrado em</th>
+                      <th className="p-4 border-b"></th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100 text-sm text-slate-600">
@@ -123,11 +146,11 @@ export default function Dashboard() {
 
                         <td className="p-4">
                           {user.role === 'manager' ? (
-                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-purple-100 text-purple-700 border border-purple-200">
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-purple-100 text-purple-700 border border-purple-200 cursor-pointer">
                               <FaUserTie /> MANAGER
                             </span>
                           ) : (
-                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700 border border-emerald-200">
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700 border border-emerald-200 cursor-pointer">
                               <FaUser /> EMPLOYEE
                             </span>
                           )}
@@ -144,6 +167,18 @@ export default function Dashboard() {
                           <div className="flex items-center gap-2">
                             <FaCalendarAlt className="text-slate-300" />
                             {new Date(user.createdAt).toLocaleDateString('pt-BR')}
+                          </div>
+                        </td>
+
+                        <td className="p-4">
+                          <div className='flex items-center gap-4'>
+                            <span 
+                              className="bg-sky-100 p-2 rounded-full text-sky-600 group-hover:bg-sky-200 transition-colors cursor-pointer"
+                              onClick={() => handleDeleteUser(user.id)}
+                            >
+                              
+                              <IoRemove/>
+                            </span>
                           </div>
                         </td>
 

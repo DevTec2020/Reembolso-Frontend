@@ -12,11 +12,10 @@ import NotFound from '../pages/NotFound'
 export function EmployeeRoutes(){
     return (
         <Routes>
-            <Route path="/" element={<Login/>} />
+            <Route path="/" element={<Home/>} />
             <Route path="/cadastro" element={<Register/>} />
             <Route path="/home" element={<Home/>} />
             <Route path='*' element={<NotFound/>} />
-            {/* <Route path="/dashboard" element={<Dashboard/>} /> */}
         </Routes>
     )
 }

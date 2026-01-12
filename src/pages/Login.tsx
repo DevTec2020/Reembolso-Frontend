@@ -35,7 +35,7 @@ export default function Login() {
 
       // Salvando e redireciobnando
       auth.save(response.data)
-      navigate("/home")
+      navigate("/")
 
     } catch (error) {
       // Verificando se é um erro do Axios
