@@ -15,7 +15,7 @@ export default function Header() {
 
                 
                 <nav className="flex gap-10 text-sm font-semibold uppercase">
-                    <p className="cursor-pointer" onClick={() => navigate("/home")}>Enviar</p>
+                    <p className="cursor-pointer" onClick={() => navigate("/Refund")}>Enviar</p>
                     <p className="cursor-pointer" onClick={() => navigate("/dashboard")}>Dashboard</p>
                     <p className="cursor-pointer" onClick={() => navigate("/colaboradores")}>Colaboradores</p>
                 </nav>

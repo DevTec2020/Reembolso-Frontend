@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Header from '../components/Header';
 
-export default function Home() {
+export default function Refund() {
   const [formData, setFormData] = useState({ descricao: '', tipo: '', valor: '' });
   const handleClear = () => setFormData({ descricao: '', tipo: '', valor: '' });
 

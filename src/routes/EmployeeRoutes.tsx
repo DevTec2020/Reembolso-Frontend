@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router";
 
 import Register from '../pages/Register'
-import Home from '../pages/Home'
+import Refund from '../pages/Refund'
 import NotFound from '../pages/NotFound'
 
 
@@ -9,9 +9,9 @@ import NotFound from '../pages/NotFound'
 export function EmployeeRoutes(){
     return (
         <Routes>
-            <Route path="/" element={<Home/>} />
+            <Route path="/" element={<Refund/>} />
             <Route path="/cadastro" element={<Register/>} />
-            <Route path="/home" element={<Home/>} />
+            <Route path="/Refund" element={<Refund/>} />
             <Route path='*' element={<NotFound/>} />
         </Routes>
     )
