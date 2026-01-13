@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router";
 
 import Home from '../pages/Home'
-import Dashboard from "../pages/Dashboard"
+import Collaborator from "../pages/Collaborator"
 import NotFound from '../pages/NotFound'
 
 
@@ -9,10 +9,10 @@ import NotFound from '../pages/NotFound'
 export function ManagerRoutes(){
     return (
         <Routes>
-            <Route path="/" element={<Dashboard/>} />
+            <Route path="/" element={<Collaborator/>} />
             <Route path="/home" element={<Home/>} />
-            <Route path="/dashboard" element={<Dashboard/>}/>
-            <Route path="/dashboard/:id" element={<Dashboard/>}/>
+            <Route path="/colaboradores" element={<Collaborator/>}/>
+            <Route path="/colaboradores/:id" element={<Collaborator/>}/>
             <Route path='*' element={<NotFound/>} />
         </Routes>
     )

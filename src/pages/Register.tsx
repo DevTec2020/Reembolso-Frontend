@@ -79,7 +79,8 @@ export default function Register() {
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1">Senha</label>
             <input 
-              name="password" 
+              name="password"
+              type="password" 
               className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:outline-none"
               placeholder="••••••••"
               
