@@ -1,9 +1,57 @@
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+
+import { api } from '../services/api';
+
 import Header from '../components/Header';
 
 export default function Refund() {
   const [formData, setFormData] = useState({ descricao: '', tipo: '', valor: '' });
   const handleClear = () => setFormData({ descricao: '', tipo: '', valor: '' });
+
+  const [name, setName] = useState("")
+  const [category, setCategory] = useState("")
+  const [amount, setamount] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
+  const [file, setFile] = useState<string | null>(null)
+  const [fileURL, setFileURL] = useState<string | null>(null)
+
+  const navigate = useNavigate()
+  const params = useParams<{id: string}>()
+
+  // async function onSubmit(e: React.FormEvent) {
+  //   e.preventDefault()
+
+  //   if(params.id) {
+  //     return navigate(-1)
+  //   }
+
+  //   try{
+  //     setIsLoading (true)
+
+  //     if (!file){
+  //       return alert("Selecione um arquivo de comprovante")
+  //     }
+
+  //     const fileUploadForm = new FormData()
+  //     fileUploadForm.append("file", file)
+
+  //     const response = await api.post("/uploads", fileUploadForm)
+
+  //     await api.post("/refunds", {
+  //       ..data,
+  //       filename: response.data.filename,
+  //     })
+  //     navigate("/confirm", {state: {fromSubmit: true}})
+
+  //   } catch (error) {
+  //           console.log(error)
+      
+  //     } finally {
+  //         setIsLoading(false)
+  //     }
+  // }
+
 
   return (
     <div className="min-h-screen w-full flex flex-col bg-gray-300">

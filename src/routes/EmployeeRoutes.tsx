@@ -11,7 +11,7 @@ export function EmployeeRoutes(){
         <Routes>
             <Route path="/" element={<Refund/>} />
             <Route path="/cadastro" element={<Register/>} />
-            <Route path="/Refund" element={<Refund/>} />
+            <Route path="/refund" element={<Refund/>} />
             <Route path='*' element={<NotFound/>} />
         </Routes>
     )
