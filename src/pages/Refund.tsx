@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { AxiosError } from 'axios';
 
 import { api } from '../services/api';
 
@@ -11,7 +12,7 @@ export default function Refund() {
 
   const [name, setName] = useState("")
   const [category, setCategory] = useState("")
-  const [amount, setamount] = useState("")
+  const [amount, setAmount] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [file, setFile] = useState<string | null>(null)
   const [fileURL, setFileURL] = useState<string | null>(null)
@@ -19,38 +20,66 @@ export default function Refund() {
   const navigate = useNavigate()
   const params = useParams<{id: string}>()
 
-  // async function onSubmit(e: React.FormEvent) {
-  //   e.preventDefault()
+  async function onSubmit(e: React.FormEvent){
+    e.preventDefault()
 
-  //   if(params.id) {
-  //     return navigate(-1)
-  //   }
+    if(params.id) {
+      return navigate(-1)
+    }
 
+    try {
+      setIsLoading(true)
+
+      if (!file){
+        return alert("Selecione um arquivo de comprovante")
+      }
+
+      const fileUploadForm = new FormData()
+      fileUploadForm.append("file", file)
+
+      const response = await api.post("/uploads", fileUploadForm)
+
+      await api.post("/refunds"), {
+        ...data,
+        filename: response.data.filename,
+      }
+      navigate("/confirm", {state: {fromSubmit: true}})
+
+    } catch(error){
+      console.log(error)
+
+      if(error instanceof AxiosError) {
+        return alert(error.response?.data.message)
+      }
+
+      alert("Não foi possivel realizar a solicitação")
+
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+
+  // async function fetchRefund( id: string ) {
   //   try{
-  //     setIsLoading (true)
+  //       const { data } = await api.get<RefundAPIResponse>(`/refunds/${id}`)
+        
+  //       setName(data.name)
+  //       setCategory(data.category)
+  //       setAmount(formatCurrency(data.amount))
+  //       setFileURL(data.filename)
 
-  //     if (!file){
-  //       return alert("Selecione um arquivo de comprovante")
-  //     }
+  //   }catch (error) {
+  //       console.log(error)
+        
+  //       if(error instanceof AxiosError) {
+  //           return alert(error.response?.data.message)
+  //       }
 
-  //     const fileUploadForm = new FormData()
-  //     fileUploadForm.append("file", file)
-
-  //     const response = await api.post("/uploads", fileUploadForm)
-
-  //     await api.post("/refunds", {
-  //       ..data,
-  //       filename: response.data.filename,
-  //     })
-  //     navigate("/confirm", {state: {fromSubmit: true}})
-
-  //   } catch (error) {
-  //           console.log(error)
-      
-  //     } finally {
-  //         setIsLoading(false)
-  //     }
+  //       alert("Não foi possivel Carregar")
+  //   }
   // }
+
 
 
   return (
@@ -62,13 +91,14 @@ export default function Refund() {
             <h1 className="text-2xl font-bold text-white text-center">Solicitar Reembolso</h1>
           </div>
           
-          <form className="p-6 space-y-6">
+          <form onSubmit={onSubmit} className="p-6 space-y-6">
             <div>
               <label className="block text-sm font-semibold text-slate-700 mb-1">Descrição do Gasto</label>
               <input 
+                required
                 type="text"
-                value={formData.descricao}
-                onChange={(e) => setFormData({...formData, descricao: e.target.value})}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 placeholder="Ex: Almoço"
                 className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 outline-none"
               />
@@ -78,24 +108,28 @@ export default function Refund() {
               <div>
                 <label className="block text-sm font-semibold text-slate-700 mb-1">Tipo de Gasto</label>
                 <select 
-                  value={formData.tipo}
-                  onChange={(e) => setFormData({...formData, tipo: e.target.value})}
+                  required
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  disabled={!!params.id}
                   className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 outline-none"
                 >
                   <option value="">Selecione...</option>
-                  <option value="alimentacao">Alimentação</option>
-                  <option value="transporte">Transporte</option>
-                  <option value="hospedagem">Hospedagem</option>
-                  <option value="outros">Outros</option>
+                  <option value="food">Alimentação</option>
+                  <option value="transport">Transporte</option>
+                  <option value="accommodation">Hospedagem</option>
+                  <option value="services">Serviços</option>
+                  <option value="others">Outros</option>
                 </select>
               </div>
 
               <div>
                 <label className="block text-sm font-semibold text-slate-700 mb-1">Valor (R$)</label>
                 <input 
+                  required
                   type="number"
-                  value={formData.valor}
-                  onChange={(e) => setFormData({...formData, valor: e.target.value})}
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
                   placeholder="0,00"
                   className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 outline-none"
                 />
