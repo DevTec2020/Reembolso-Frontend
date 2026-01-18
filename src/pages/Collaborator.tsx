@@ -4,7 +4,7 @@ import { AxiosError } from 'axios';
 
 import Header from '../components/Header';
 import { api } from '../services/api';
-import { useAuth } from '../hooks/useAuth';
+//import { useAuth } from '../hooks/useAuth';
 
 import { 
   FaUsers, 
@@ -27,7 +27,7 @@ interface UserData {
 
 export default function Collaborator() {
   const navigate = useNavigate();
-  const auth = useAuth();
+  //const auth = useAuth();
   
   const [users, setUsers] = useState<UserData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
